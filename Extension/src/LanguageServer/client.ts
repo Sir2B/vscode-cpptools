@@ -356,6 +356,7 @@ export interface GetDocumentSymbolRequestParams {
 
 export interface WorkspaceSymbolParams extends WorkspaceFolderParams {
     query: string;
+    experimentEnabled: boolean;
 }
 
 export enum SymbolScope {
@@ -1465,7 +1466,7 @@ export class DefaultClient implements Client {
             workspaceParsingPriority: workspaceSettings.workspaceParsingPriority,
             workspaceSymbols: workspaceSettings.workspaceSymbols,
             simplifyStructuredComments: workspaceSettings.simplifyStructuredComments,
-            intelliSenseUpdateDelay: workspaceSettings.intelliSenseUpdateDelay,
+            intelliSenseUpdateDelay: workspaceSettings.intelliSenseUpdateDelay || (4 - Math.min(4, os.cpus().length)) * 250 + 250,
             experimentalFeatures: workspaceSettings.experimentalFeatures,
             enhancedColorization: workspaceSettings.enhancedColorization,
             intellisenseMaxCachedProcesses: workspaceSettings.intelliSenseMaxCachedProcesses,
